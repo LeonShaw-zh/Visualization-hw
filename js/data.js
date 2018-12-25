@@ -22,6 +22,7 @@ input.onchange = function(e){
         // console.log(inf);
         // console.log(outf);
         initialPie();
+        initialTab();
     };
     reader.readAsBinaryString(files[0]);
 };

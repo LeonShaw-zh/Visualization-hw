@@ -1,6 +1,6 @@
 var pie = echarts.init(document.getElementById('pie'));
 var currentTime = 2017;
-var data = [];
+var piedata = [];
 
 function initialPie(){
     pie.setOption({
@@ -13,8 +13,8 @@ function initialPie(){
             // type: 'scroll',
             orient: 'vertical',
             right: 'right',
-            data: data.legendData,
-            selected: data.selected
+            data: piedata.legendData,
+            selected: piedata.selected
         },
         tooltip: {
             trigger: 'item',
@@ -52,11 +52,11 @@ function flushPie(){
         var value = GDP[city][currentTime];
         tem = tem.concat({"value":value, "name":name});
     }
-    data = tem;
+    piedata = tem;
 
     var option = pie.getOption();
     option.title[0].text = currentTime+'年浙江省城市GDP';
-    option.series[0].data = data;
+    option.series[0].data = piedata;
     option.series[0].name = currentTime+'年GDP';
     pie.setOption(option); 
 }
