@@ -1,16 +1,65 @@
 var tab = echarts.init(document.getElementById('tab'));
 
 function initialTab(){
-    var names = []
+    var names = [];
+    var flag = false, years = [];
+    var sum = {};
+    var series = [];
     for(var city in GDP){
         var name = GDP[city].__EMPTY;
         names = names.concat(name);
         var data = [];
         for(var year in GDP[city]){
-            if(GDP[city][year] != name)
-                date = data.concat(GDP[city][year]);
+            if(GDP[city][year] != name){
+                data = data.concat(GDP[city][year]);
+                if(!flag){
+                    years = years.concat(year);
+                    sum[year] = GDP[city][year];
+                }else
+                    sum[year] += GDP[city][year];
+            }
         }
+        flag = true;
+
+        var serie = {"name": name,"type": 'bar',"stack": 'GDP',
+                        "label": {
+                            "normal": {
+                                "show": true,
+                                "position": 'ouside',
+                                "formatter": ''
+                            }
+                        },
+                        "data":data
+                    };
+        series = series.concat(serie);
     }
+    // var sumdata = [];
+    // for(var k in sum)
+    //     sumdata = sumdata.concat(sum[k]);
+    // series = series.concat({
+    //     "name": '总计',
+    //     "type": 'bar',
+    //     "stack": '总计',
+    //     "barGap": '-100%',
+    //     "label": {
+    //         "normal": {
+    //             "show": true,
+    //             "position": 'right',
+    //             "textStyle": { "color": '#000' },
+    //             "formatter": function(v) {
+    //                 return "总计：" + (v.value)
+    //             }
+    //         }
+    //     },
+    //     "itemStyle": { 
+    //         "normal": { 
+    //             "color": 'rgba(128, 128, 128, 0)',
+    //             "borderWidth": 1,
+    //             "borderColor": '#1FBCD2'
+    //         } 
+    //     },
+    //     "data": sumdata
+    // });
 
     var option = {
         tooltip : {
@@ -20,7 +69,7 @@ function initialTab(){
             }
         },
         legend: {
-            data: ['直接访问', '邮件营销','联盟广告','视频广告','搜索引擎']
+            data: names
         },
         grid: {
             left: '3%',
@@ -33,22 +82,9 @@ function initialTab(){
         },
         yAxis: {
             type: 'category',
-            data: ['周一','周二','周三','周四','周五','周六','周日']
+            data: years
         },
-        series: [
-            {
-                name: '直接访问',
-                type: 'bar',
-                stack: '总量',
-                label: {
-                    normal: {
-                        show: true,
-                        position: 'insideRight'
-                    }
-                },
-                data: [320, 302, 301, 334, 390, 330, 320]
-            }
-        ]
+        series: series
     };
-    // tab.setOption(option);
+    tab.setOption(option);
 }
