@@ -64,8 +64,7 @@ function flushPie(){
 function pieScroll(e){
     // console.log(e.wheelDelta);
     currentTime = currentTime + parseInt(e.wheelDelta/100);
-    currentTime = Math.min(currentTime, 2017);
-    currentTime = Math.max(currentTime, 2001);
+    currentTime = (currentTime-2001) % 17 + 2001;
     flushPie();
 }
 
